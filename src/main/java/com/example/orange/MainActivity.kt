@@ -51,22 +51,22 @@ fun Greeting(modifier: Modifier = Modifier
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         var orange = R.drawable.orange_tree
         var counter: Int = 0
-        var result by remember{ mutableStateOf(-1) }
-        var squeeze by remember { mutableStateOf(0) }
-        var  timeCheck =  (5 .. 10).random()
+        var result by remember{ mutableStateOf(11) }
+        var timeCheck by remember { mutableStateOf((5..10).random()) }
         orange = when(result)
         {
-            -1 -> R.drawable.orange_tree
-
-             0 -> R.drawable.orange_drink_empty
+             11 -> R.drawable.orange_tree
+             0 -> R.drawable.orange_drink_full
+             -1 -> R.drawable.orange_drink_empty
             else -> {R.drawable.orange_fruit}
         }
 
 
         Button(onClick = {
+            timeCheck -= 1
             result = timeCheck
         }) {
-            timeCheck = timeCheck - 1
+
             Image(painter = painterResource(id = orange), contentDescription = "tree")
             Text(text = stringResource(id = R.string.RollOrange))
 
@@ -82,7 +82,6 @@ fun Greeting(modifier: Modifier = Modifier
                 .padding(16.dp)
                 .align(alignment = Alignment.End)
         )
-
     }
 
 }
