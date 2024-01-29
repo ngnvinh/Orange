@@ -49,32 +49,37 @@ fun Greeting(modifier: Modifier = Modifier
     .wrapContentSize(align = Alignment.Center)) {
 
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        var orange = R.drawable.orange_tree
-        var counter: Int = 0
+        var counter by remember{ mutableStateOf(0) }
         var result by remember{ mutableStateOf(11) }
         var timeCheck by remember { mutableStateOf((5..10).random()) }
-        orange = when(result)
+        var orange = when(result)
         {
-             11 -> R.drawable.orange_tree
+            in 1..10 -> R.drawable.orange_fruit
              0 -> R.drawable.orange_drink_full
              -1 -> R.drawable.orange_drink_empty
-            else -> {R.drawable.orange_fruit}
+            else -> {R.drawable.orange_tree}
         }
 
-
         Button(onClick = {
-            timeCheck -= 1
             result = timeCheck
+
+            if(timeCheck == -1)
+            {
+                counter += 1
+            }
+            if(timeCheck < -1)
+            {
+                timeCheck = (5..10).random()
+            }
+            timeCheck -= 1
+
         }) {
 
             Image(painter = painterResource(id = orange), contentDescription = "tree")
             Text(text = stringResource(id = R.string.RollOrange))
 
-
-
-
-
         }
+
         Text(
             text = "Games count: $counter",
             fontSize = 30.sp,
@@ -82,6 +87,7 @@ fun Greeting(modifier: Modifier = Modifier
                 .padding(16.dp)
                 .align(alignment = Alignment.End)
         )
+
     }
 
 }
@@ -95,40 +101,3 @@ fun GreetingPreview() {
         Greeting()
     }
 }
-
-
-/*
-fun RollDiceWithButtonAndImage(modifier: Modifier = Modifier
-    .fillMaxSize()
-    .wrapContentSize(align = Alignment.Center))
-{
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally)
-    {
-
-        var result by remember{ mutableStateOf(1) }
-        var diceImageID = when(result)
-        {
-            1 -> R.drawable.dice_1
-            2 -> R.drawable.dice_2
-            3 -> R.drawable.dice_3
-            4 -> R.drawable.dice_4
-            5 -> R.drawable.dice_5
-            else -> R.drawable.dice_6
-
-        }
-        Image(painter = painterResource(diceImageID), contentDescription = "dice")
-
-        Spacer(modifier = Modifier.height(60.dp))
-
-
-        Button(onClick = {
-            result = (1 .. 6).random()
-        }) {
-
-            Text(text = stringResource(id = R.string.RollDiceBtnText))
-            //Text(text = stringResource(id = "roll"))
-
-        }
-    }
-}
- */
